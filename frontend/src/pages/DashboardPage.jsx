@@ -170,7 +170,7 @@ export default function DashboardPage() {
       </div>
 
       {/* 5 Core Financial Summary Cards */}
-      <div className="grid grid-cols-5" style={{ marginBottom: '1.75rem' }}>
+      <div className="stats-grid" style={{ marginBottom: '1.75rem' }}>
         <StatCard
           title="Current Balance"
           value={formatINR(summary?.current_balance || 0)}

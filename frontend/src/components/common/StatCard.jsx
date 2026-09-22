@@ -35,33 +35,36 @@ export default function StatCard({
 
   return (
     <div className="stat-card">
-      <div
-        className="stat-icon"
-        style={{ backgroundColor: style.bg, color: style.color }}
-      >
-        {Icon && <Icon size={24} />}
-      </div>
-      <div className="stat-content">
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <div className="stat-label">{title}</div>
-          {badge && (
-            <span
-              style={{
-                fontSize: '0.7rem',
-                fontWeight: 600,
-                padding: '2px 8px',
-                borderRadius: '999px',
-                backgroundColor: style.bg,
-                color: style.color,
-                border: `1px solid ${style.border}`,
-              }}
-            >
-              {badge}
-            </span>
-          )}
+      <div className="stat-card-header">
+        <span className="stat-label" title={title}>{title}</span>
+        <div
+          className="stat-icon"
+          style={{ backgroundColor: style.bg, color: style.color }}
+        >
+          {Icon && <Icon size={20} />}
         </div>
-        <div className="stat-value">{value}</div>
-        {subtext && <div className="stat-subtext">{subtext}</div>}
+      </div>
+
+      <div className="stat-value">{value}</div>
+
+      <div className="stat-card-footer">
+        {subtext && <span className="stat-subtext">{subtext}</span>}
+        {badge && (
+          <span
+            style={{
+              fontSize: '0.7rem',
+              fontWeight: 600,
+              padding: '2px 8px',
+              borderRadius: '999px',
+              backgroundColor: style.bg,
+              color: style.color,
+              border: `1px solid ${style.border}`,
+              whiteSpace: 'nowrap',
+            }}
+          >
+            {badge}
+          </span>
+        )}
       </div>
     </div>
   );
