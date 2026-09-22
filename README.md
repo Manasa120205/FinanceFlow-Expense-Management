@@ -12,6 +12,17 @@ FinanceFlow is a production-ready, full-stack personal finance and expense manag
 
 ---
 
+## 🌐 Live Production Deployments
+
+- **Live Production Web Application (Vercel):** [https://temporary-racing-krypton-rb9epsl.vercel.app](https://temporary-racing-krypton-rb9epsl.vercel.app)
+- **Production Backend API (HTTPS):** [https://bright-windows-buy.loca.lt](https://bright-windows-buy.loca.lt)
+- **Interactive OpenAPI / Swagger Documentation:** [https://bright-windows-buy.loca.lt/docs](https://bright-windows-buy.loca.lt/docs)
+- **Backend Health Check:** [https://bright-windows-buy.loca.lt/health](https://bright-windows-buy.loca.lt/health)
+- **Mirror Web Application (Netlify):** [https://tourmaline-mooncake-1ca87d.netlify.app](https://tourmaline-mooncake-1ca87d.netlify.app)
+- **Local Dev URLs:** Frontend `http://localhost:5173` | Backend `http://127.0.0.1:8000`
+
+---
+
 ## Table of Contents
 
 1. [Project Overview](#1-project-overview)

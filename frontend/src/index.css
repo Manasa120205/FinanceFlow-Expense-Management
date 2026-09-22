@@ -58,6 +58,37 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Prevent accidental text selection / long-press copy across general UI chrome */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* Explicitly preserve text selection, cursor placement, and editing for all inputs and form fields */
+input,
+textarea,
+select,
+[contenteditable="true"],
+.selectable,
+.data-table td,
+pre,
+code {
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  -ms-user-select: text !important;
+  user-select: text !important;
+  -webkit-touch-callout: default !important;
+}
+
+/* Prevent unwanted dragging on decorative images and SVG icons */
+img,
+svg,
+.stat-icon,
+.badge {
+  -webkit-user-drag: none;
+  user-drag: none;
 }
 
 a {
