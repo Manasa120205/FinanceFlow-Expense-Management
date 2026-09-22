@@ -25,7 +25,7 @@ export const getApiBaseURL = () => {
     }
 
     // Production cloud deployment (Vercel, Netlify, custom domain)
-    return 'https://twelve-bikes-obey.loca.lt/api/v1';
+    return 'https://financeflow-api.loca.lt/api/v1';
   }
 
   return 'http://localhost:8000/api/v1';
