@@ -108,7 +108,7 @@ export default function RegisterPage() {
             >
               <Wallet size={22} />
             </div>
-            <span style={{ fontSize: '1.5rem', fontWeight: 800 }}>FinanceFlow</span>
+            <span style={{ fontSize: '1.5rem', fontWeight: 800 }}>PennyFlow</span>
           </Link>
           <h2 style={{ fontSize: '1.5rem', fontWeight: 700 }}>Create your account</h2>
           <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginTop: '0.25rem' }}>

@@ -59,7 +59,7 @@ export default function Navbar({ onToggleSidebar }) {
           >
             <Wallet size={16} />
           </div>
-          <span>FinanceFlow</span>
+          <span>PennyFlow</span>
         </Link>
       </div>
 

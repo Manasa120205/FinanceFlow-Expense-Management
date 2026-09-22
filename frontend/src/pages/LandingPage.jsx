@@ -39,30 +39,22 @@ export default function LandingPage() {
             <Wallet size={20} />
           </div>
           <span style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--text-main)' }}>
-            FinanceFlow
+            PennyFlow
           </span>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <Link to="/login" className="btn btn-secondary">
+        <div className="landing-header-actions">
+          <Link to="/login" className="btn btn-secondary btn-sm">
             Log In
           </Link>
-          <Link to="/register" className="btn btn-primary">
-            Get Started <ArrowRight size={16} />
+          <Link to="/register" className="btn btn-primary btn-sm">
+            Get Started <ArrowRight size={14} />
           </Link>
         </div>
       </header>
 
       {/* Hero Section */}
-      <section
-        style={{
-          padding: '5rem 1.5rem 4rem',
-          textAlign: 'center',
-          maxWidth: '960px',
-          margin: '0 auto',
-          flex: 1,
-        }}
-      >
+      <section className="landing-hero-section">
         <div
           style={{
             display: 'inline-flex',
@@ -82,25 +74,25 @@ export default function LandingPage() {
 
         <h1
           style={{
-            fontSize: 'clamp(2.25rem, 5vw, 3.5rem)',
+            fontSize: 'clamp(2rem, 5vw, 3.5rem)',
             fontWeight: 800,
             letterSpacing: '-0.03em',
             color: 'var(--text-main)',
             lineHeight: 1.15,
-            marginBottom: '1.5rem',
+            marginBottom: '1.25rem',
           }}
         >
           Take control of your money with{' '}
-          <span style={{ color: 'var(--primary)' }}>FinanceFlow</span>
+          <span style={{ color: 'var(--primary)' }}>PennyFlow</span>
         </h1>
 
         <p
           style={{
-            fontSize: '1.125rem',
+            fontSize: '1.05rem',
             color: 'var(--text-muted)',
             lineHeight: 1.6,
             maxWidth: '680px',
-            margin: '0 auto 2.5rem',
+            margin: '0 auto 2rem',
           }}
         >
           Seamlessly record income and expenses, set proactive monthly budgets,
@@ -108,19 +100,11 @@ export default function LandingPage() {
           enterprise-grade security and zero data leakage.
         </p>
 
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '1rem',
-            flexWrap: 'wrap',
-          }}
-        >
-          <Link to="/register" className="btn btn-primary btn-lg">
+        <div className="landing-hero-actions">
+          <Link to="/register" className="btn btn-primary btn-lg landing-hero-btn">
             Create Free Account <ArrowRight size={18} />
           </Link>
-          <Link to="/login" className="btn btn-secondary btn-lg">
+          <Link to="/login" className="btn btn-secondary btn-lg landing-hero-btn">
             Sign In to Dashboard
           </Link>
         </div>
@@ -215,7 +199,7 @@ export default function LandingPage() {
           fontSize: '0.875rem',
         }}
       >
-        <p>© {new Date().getFullYear()} FinanceFlow Platform. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} PennyFlow Platform. All rights reserved.</p>
         <p style={{ marginTop: '0.35rem', fontSize: '0.75rem', color: 'var(--text-subtle)' }}>
           Secure • Production-Ready • PostgreSQL Relational Architecture
         </p>

@@ -72,7 +72,7 @@ export default function Sidebar({ isOpen, onClose }) {
             </div>
             <div>
               <div style={{ fontWeight: 700, fontSize: '1.1rem', letterSpacing: '-0.02em' }}>
-                FinanceFlow
+                PennyFlow
               </div>
               <div style={{ fontSize: '0.7rem', color: '#94a3b8' }}>
                 Expense Management
