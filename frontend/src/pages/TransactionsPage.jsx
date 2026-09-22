@@ -217,14 +217,7 @@ export default function TransactionsPage() {
       {/* Filter and Search Bar */}
       <div className="card" style={{ marginBottom: '1.5rem', padding: '1.25rem' }}>
         <form onSubmit={handleSearchSubmit}>
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
-              gap: '1rem',
-              alignItems: 'end',
-            }}
-          >
+          <div className="transactions-filter-grid">
             {/* Search Input */}
             <div>
               <label className="form-label" htmlFor="searchInput">

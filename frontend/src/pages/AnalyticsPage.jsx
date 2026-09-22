@@ -142,7 +142,7 @@ export default function AnalyticsPage() {
           </button>
         </div>
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(440px, 1fr))', gap: '1.5rem' }}>
+        <div className="analytics-charts-grid">
           {/* CHART 1: Income vs Expense (Bar Chart) */}
           <div className="card">
             <div className="card-header">

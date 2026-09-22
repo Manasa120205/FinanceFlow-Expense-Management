@@ -63,51 +63,28 @@ export default function Navbar({ onToggleSidebar }) {
         </Link>
       </div>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+      <div className="navbar-actions">
         {user && (
           <Link
             to="/profile"
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.6rem',
-              color: 'var(--text-main)',
-              fontSize: '0.875rem',
-              padding: '6px 12px',
-              borderRadius: 'var(--radius-md)',
-              border: '1px solid var(--border-light)',
-              textDecoration: 'none',
-              backgroundColor: 'var(--bg-surface)',
-            }}
+            className="navbar-user-link"
+            title={`View profile for ${user.name}`}
           >
-            <div
-              style={{
-                width: '24px',
-                height: '24px',
-                borderRadius: '50%',
-                backgroundColor: 'var(--primary-light)',
-                color: 'var(--primary)',
-                fontSize: '0.75rem',
-                fontWeight: 700,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
+            <div className="navbar-avatar">
               {user.name.charAt(0).toUpperCase()}
             </div>
-            <span style={{ fontWeight: 600 }}>{user.name}</span>
+            <span className="navbar-user-name">{user.name}</span>
           </Link>
         )}
 
         <button
           type="button"
-          className="btn btn-secondary btn-sm"
+          className="btn btn-secondary btn-sm navbar-logout-btn"
           onClick={handleLogout}
           title="Sign out of your account"
         >
           <LogOut size={16} />
-          <span>Logout</span>
+          <span className="navbar-logout-text">Logout</span>
         </button>
       </div>
     </header>

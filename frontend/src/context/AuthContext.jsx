@@ -53,7 +53,12 @@ export function AuthProvider({ children }) {
       localStorage.setItem('financeflow_user', JSON.stringify(userData));
       return userData;
     } catch (err) {
-      const message = err.response?.data?.detail || 'Invalid email or password. Please try again.';
+      let message = 'Invalid email or password. Please try again.';
+      if (err.response?.data?.detail) {
+        message = err.response.data.detail;
+      } else if (err.code === 'ERR_NETWORK' || !err.response) {
+        message = 'Unable to connect to the FinanceFlow server. Please check your internet connection or server availability.';
+      }
       setError(message);
       throw new Error(message);
     }
@@ -81,6 +86,8 @@ export function AuthProvider({ children }) {
         message = err.response.data.detail;
       } else if (err.response?.data?.errors) {
         message = err.response.data.errors.map((e) => e.message).join(' ');
+      } else if (err.code === 'ERR_NETWORK' || !err.response) {
+        message = 'Unable to connect to the FinanceFlow server. Please check your internet connection or server availability.';
       }
       setError(message);
       throw new Error(message);

@@ -22,20 +22,7 @@ export default function LandingPage() {
   return (
     <div style={{ minHeight: '100vh', backgroundColor: '#f8fafc', display: 'flex', flexDirection: 'column' }}>
       {/* Top Header */}
-      <header
-        style={{
-          height: '72px',
-          borderBottom: '1px solid var(--border-light)',
-          backgroundColor: '#ffffff',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          padding: '0 2.5rem',
-          position: 'sticky',
-          top: 0,
-          zIndex: 20,
-        }}
-      >
+      <header className="landing-header">
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
           <div
             style={{
@@ -139,15 +126,7 @@ export default function LandingPage() {
         </div>
 
         {/* Feature Highlights Grid */}
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: '1.75rem',
-            marginTop: '5rem',
-            textAlign: 'left',
-          }}
-        >
+        <div className="landing-features-grid">
           <div className="card">
             <div
               style={{

@@ -12,13 +12,13 @@ FinanceFlow is a production-ready, full-stack personal finance and expense manag
 
 ---
 
-## 🌐 Live Production Deployments
+## 🌐 Live Production & Mobile Access Endpoints
 
 - **Live Production Web Application (Vercel):** [https://temporary-racing-krypton-rb9epsl.vercel.app](https://temporary-racing-krypton-rb9epsl.vercel.app)
-- **Production Backend API (HTTPS):** [https://bright-windows-buy.loca.lt](https://bright-windows-buy.loca.lt)
-- **Interactive OpenAPI / Swagger Documentation:** [https://bright-windows-buy.loca.lt/docs](https://bright-windows-buy.loca.lt/docs)
-- **Backend Health Check:** [https://bright-windows-buy.loca.lt/health](https://bright-windows-buy.loca.lt/health)
-- **Mirror Web Application (Netlify):** [https://tourmaline-mooncake-1ca87d.netlify.app](https://tourmaline-mooncake-1ca87d.netlify.app)
+- **Production Backend API (HTTPS):** [https://twelve-bikes-obey.loca.lt](https://twelve-bikes-obey.loca.lt)
+- **Interactive OpenAPI / Swagger Documentation:** [https://twelve-bikes-obey.loca.lt/docs](https://twelve-bikes-obey.loca.lt/docs)
+- **Backend Health Check:** [https://twelve-bikes-obey.loca.lt/health](https://twelve-bikes-obey.loca.lt/health)
+- **Mobile Wi-Fi Local URL:** `http://192.168.1.189:5173` (connect phone to same Wi-Fi)
 - **Local Dev URLs:** Frontend `http://localhost:5173` | Backend `http://127.0.0.1:8000`
 
 ---

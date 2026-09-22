@@ -151,7 +151,7 @@ export default function DashboardPage() {
           <p className="page-subtitle">Real-time overview of your income, expenses, and monthly budget progress.</p>
         </div>
 
-        <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+        <div className="page-actions-group">
           <button
             type="button"
             className="btn btn-success"
@@ -213,7 +213,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Mid Section: Cash Flow Chart & Active Budgets */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: '1.5rem', marginBottom: '1.75rem' }}>
+      <div className="dashboard-mid-grid">
         {/* Cash Flow Chart */}
         <div className="card">
           <div className="card-header">

@@ -257,13 +257,7 @@ export default function BudgetsPage() {
           />
         </div>
       ) : (
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
-            gap: '1.25rem',
-          }}
-        >
+        <div className="budgets-card-grid">
           {budgetData.items.map((b) => (
             <div
               key={b.id}

@@ -43,7 +43,7 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: '1.5rem', maxWidth: '1000px' }}>
+      <div className="profile-grid">
         {/* Profile Details & Edit Form */}
         <div className="card">
           <h3 style={{ marginBottom: '1.25rem' }}>Personal Information</h3>
