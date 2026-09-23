@@ -25,7 +25,7 @@ export const getApiBaseURL = () => {
     }
 
     // Production cloud deployment (Vercel, Netlify, custom domain)
-    return 'https://financeflow-api.loca.lt/api/v1';
+    return 'https://pennyflow-api.loca.lt/api/v1';
   }
 
   return 'http://localhost:8000/api/v1';

@@ -15,9 +15,9 @@ FinanceFlow is a production-ready, full-stack personal finance and expense manag
 ## 🌐 Live Production & Mobile Access Endpoints
 
 - **Official GitHub Repository:** [https://github.com/Manasa120205/FinanceFlow-Expense-Management](https://github.com/Manasa120205/FinanceFlow-Expense-Management)
-- **Production Backend API (HTTPS):** [https://financeflow-api.loca.lt](https://financeflow-api.loca.lt)
-- **Interactive OpenAPI / Swagger Documentation:** [https://financeflow-api.loca.lt/docs](https://financeflow-api.loca.lt/docs)
-- **Backend Health Check:** [https://financeflow-api.loca.lt/health](https://financeflow-api.loca.lt/health)
+- **Production Backend API (HTTPS):** [https://pennyflow-api.loca.lt](https://pennyflow-api.loca.lt)
+- **Interactive OpenAPI / Swagger Documentation:** [https://pennyflow-api.loca.lt/docs](https://pennyflow-api.loca.lt/docs)
+- **Backend Health Check:** [https://pennyflow-api.loca.lt/health](https://pennyflow-api.loca.lt/health)
 - **Live Production Web Application (Vercel):** [https://temporary-racing-krypton-rb9epsl.vercel.app](https://temporary-racing-krypton-rb9epsl.vercel.app)
 - **Mobile Wi-Fi Local URL:** `http://192.168.1.189:5173` (connect phone to same Wi-Fi)
 - **Local Dev URLs:** Frontend `http://localhost:5173` | Backend `http://127.0.0.1:8000`
