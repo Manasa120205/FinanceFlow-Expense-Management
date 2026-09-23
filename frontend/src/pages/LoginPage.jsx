@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Wallet, LogIn, AlertCircle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
@@ -10,9 +10,16 @@ export default function LoginPage() {
   const [serverError, setServerError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const { login } = useAuth();
+  const { login, isAuthenticated, loading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+
+  // If already authenticated, redirect to dashboard
+  useEffect(() => {
+    if (!loading && isAuthenticated) {
+      navigate('/dashboard', { replace: true });
+    }
+  }, [isAuthenticated, loading, navigate]);
 
   // Check if session expired banner should show
   const params = new URLSearchParams(location.search);

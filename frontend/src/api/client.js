@@ -24,8 +24,9 @@ export const getApiBaseURL = () => {
       return `http://${hostname}:8000/api/v1`;
     }
 
-    // Production cloud deployment (Vercel, Netlify, custom domain)
-    return 'https://pennyflow-api.loca.lt/api/v1';
+    // Production cloud deployment (Vercel, custom domain):
+    // Use same-origin /api/v1 to eliminate cross-origin tunnel failures
+    return '/api/v1';
   }
 
   return 'http://localhost:8000/api/v1';
@@ -69,15 +70,14 @@ apiClient.interceptors.response.use(
   },
   (error) => {
     if (error.response && error.response.status === 401) {
-      // Clear expired or invalid credentials
-      localStorage.removeItem('pennyflow_token');
-      localStorage.removeItem('pennyflow_user');
-      localStorage.removeItem('financeflow_token');
-      localStorage.removeItem('financeflow_user');
-
-      // If not already on login or register, redirect to login
       const currentPath = window.location.pathname;
+      // Only clear credentials and redirect if the user was on an authenticated protected route,
+      // not when simply submitting an incorrect password on the login page
       if (currentPath !== '/login' && currentPath !== '/register' && currentPath !== '/') {
+        localStorage.removeItem('pennyflow_token');
+        localStorage.removeItem('pennyflow_user');
+        localStorage.removeItem('financeflow_token');
+        localStorage.removeItem('financeflow_user');
         window.location.href = '/login?expired=true';
       }
     }
