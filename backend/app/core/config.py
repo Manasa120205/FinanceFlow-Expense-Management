@@ -40,12 +40,30 @@ class Settings(BaseSettings):
 
     @property
     def normalized_database_url(self) -> str:
-        """Ensure PostgreSQL URLs are compatible with SQLAlchemy."""
+        """Ensure database URLs are compatible with PostgreSQL and Serverless SQLite runtimes."""
+        import os
+        import shutil
         url = self.DATABASE_URL
+
+        # 1. PostgreSQL URL normalization
         if url.startswith("postgres://"):
-            url = url.replace("postgres://", "postgresql+psycopg2://", 1)
-        elif url.startswith("postgresql://") and not url.startswith("postgresql+"):
-            url = url.replace("postgresql://", "postgresql+psycopg2://", 1)
+            return url.replace("postgres://", "postgresql+psycopg2://", 1)
+        if url.startswith("postgresql://") and not url.startswith("postgresql+"):
+            return url.replace("postgresql://", "postgresql+psycopg2://", 1)
+
+        # 2. Serverless / Vercel SQLite write-path handling
+        # On Vercel / AWS Lambda, the root is read-only. Relocate SQLite to /tmp/financeflow.db
+        is_serverless = bool(os.environ.get("VERCEL") or os.environ.get("AWS_LAMBDA_FUNCTION_NAME") or os.environ.get("LAMBDA_TASK_ROOT"))
+        if url.startswith("sqlite") and is_serverless:
+            tmp_db_path = "/tmp/financeflow.db"
+            bundled_db_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", "financeflow.db"))
+            if not os.path.exists(tmp_db_path) and os.path.exists(bundled_db_path):
+                try:
+                    shutil.copy2(bundled_db_path, tmp_db_path)
+                except Exception:
+                    pass
+            return f"sqlite:///{tmp_db_path}"
+
         return url
 
     model_config = SettingsConfigDict(
