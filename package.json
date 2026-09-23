@@ -1,0 +1,10 @@
+{
+  "name": "pennyflow",
+  "version": "1.0.0",
+  "private": true,
+  "description": "PennyFlow - Personal Finance and Expense Management Platform",
+  "scripts": {
+    "build": "cd frontend && npm install && npm run build",
+    "vercel-build": "cd frontend && npm install && npm run build"
+  }
+}

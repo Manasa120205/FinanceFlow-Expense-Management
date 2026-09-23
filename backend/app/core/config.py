@@ -6,7 +6,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    PROJECT_NAME: str = "FinanceFlow API"
+    PROJECT_NAME: str = "PennyFlow API"
     ENVIRONMENT: str = "development"
     
     # Database

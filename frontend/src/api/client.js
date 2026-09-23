@@ -44,7 +44,7 @@ const apiClient = axios.create({
 // Request Interceptor: Attach JWT Bearer Token and Localtunnel bypass headers
 apiClient.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('financeflow_token');
+    const token = localStorage.getItem('pennyflow_token') || localStorage.getItem('financeflow_token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -70,6 +70,8 @@ apiClient.interceptors.response.use(
   (error) => {
     if (error.response && error.response.status === 401) {
       // Clear expired or invalid credentials
+      localStorage.removeItem('pennyflow_token');
+      localStorage.removeItem('pennyflow_user');
       localStorage.removeItem('financeflow_token');
       localStorage.removeItem('financeflow_user');
 

@@ -16,7 +16,7 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s"
 )
-logger = logging.getLogger("financeflow")
+logger = logging.getLogger("pennyflow")
 
 
 @asynccontextmanager
@@ -29,13 +29,13 @@ async def lifespan(app: FastAPI):
     except Exception as e:
         logger.error(f"Error during database initialization: {e}")
     yield
-    logger.info("Shutting down FinanceFlow API...")
+    logger.info("Shutting down PennyFlow API...")
 
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
     description=(
-        "Production-ready RESTful API for FinanceFlow — Personal Finance & "
+        "Production-ready RESTful API for PennyFlow — Personal Finance & "
         "Expense Management Platform. Provides robust endpoints for authentication, "
         "transaction management, budget tracking, financial analytics, and user isolation."
     ),

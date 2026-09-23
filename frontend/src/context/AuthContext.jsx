@@ -10,13 +10,13 @@ const AuthContext = createContext(null);
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(() => {
     try {
-      const stored = localStorage.getItem('financeflow_user');
+      const stored = localStorage.getItem('pennyflow_user') || localStorage.getItem('financeflow_user');
       return stored ? JSON.parse(stored) : null;
     } catch {
       return null;
     }
   });
-  const [token, setToken] = useState(() => localStorage.getItem('financeflow_token') || null);
+  const [token, setToken] = useState(() => localStorage.getItem('pennyflow_token') || localStorage.getItem('financeflow_token') || null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -30,7 +30,7 @@ export function AuthProvider({ children }) {
       try {
         const res = await apiClient.get('/auth/me');
         setUser(res.data);
-        localStorage.setItem('financeflow_user', JSON.stringify(res.data));
+        localStorage.setItem('pennyflow_user', JSON.stringify(res.data));
       } catch (err) {
         console.warn('Session verification failed, logging out.');
         logout();
@@ -49,15 +49,15 @@ export function AuthProvider({ children }) {
 
       setToken(access_token);
       setUser(userData);
-      localStorage.setItem('financeflow_token', access_token);
-      localStorage.setItem('financeflow_user', JSON.stringify(userData));
+      localStorage.setItem('pennyflow_token', access_token);
+      localStorage.setItem('pennyflow_user', JSON.stringify(userData));
       return userData;
     } catch (err) {
       let message = 'Invalid email or password. Please try again.';
       if (err.response?.data?.detail) {
         message = err.response.data.detail;
       } else if (err.code === 'ERR_NETWORK' || !err.response) {
-        message = 'Unable to connect to the FinanceFlow server. Please check your internet connection or server availability.';
+        message = 'Unable to connect to the PennyFlow server. Please check your internet connection or server availability.';
       }
       setError(message);
       throw new Error(message);
@@ -77,8 +77,8 @@ export function AuthProvider({ children }) {
 
       setToken(access_token);
       setUser(userData);
-      localStorage.setItem('financeflow_token', access_token);
-      localStorage.setItem('financeflow_user', JSON.stringify(userData));
+      localStorage.setItem('pennyflow_token', access_token);
+      localStorage.setItem('pennyflow_user', JSON.stringify(userData));
       return userData;
     } catch (err) {
       let message = 'Registration failed. Please check your information.';
@@ -87,7 +87,7 @@ export function AuthProvider({ children }) {
       } else if (err.response?.data?.errors) {
         message = err.response.data.errors.map((e) => e.message).join(' ');
       } else if (err.code === 'ERR_NETWORK' || !err.response) {
-        message = 'Unable to connect to the FinanceFlow server. Please check your internet connection or server availability.';
+        message = 'Unable to connect to the PennyFlow server. Please check your internet connection or server availability.';
       }
       setError(message);
       throw new Error(message);
@@ -98,6 +98,8 @@ export function AuthProvider({ children }) {
     setUser(null);
     setToken(null);
     setError(null);
+    localStorage.removeItem('pennyflow_token');
+    localStorage.removeItem('pennyflow_user');
     localStorage.removeItem('financeflow_token');
     localStorage.removeItem('financeflow_user');
   };
@@ -107,7 +109,7 @@ export function AuthProvider({ children }) {
     try {
       const res = await apiClient.put('/profile', { name: newName });
       setUser(res.data);
-      localStorage.setItem('financeflow_user', JSON.stringify(res.data));
+      localStorage.setItem('pennyflow_user', JSON.stringify(res.data));
       return res.data;
     } catch (err) {
       const message = err.response?.data?.detail || 'Failed to update profile name.';
