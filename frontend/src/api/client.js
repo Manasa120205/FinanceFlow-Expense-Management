@@ -25,8 +25,8 @@ export const getApiBaseURL = () => {
     }
 
     // Production cloud deployment (Vercel, custom domain):
-    // Use same-origin /api/v1 to eliminate cross-origin tunnel failures
-    return '/api/v1';
+    // Connect to live PennyFlow API endpoint
+    return 'https://pennyflow-api.loca.lt/api/v1';
   }
 
   return 'http://localhost:8000/api/v1';
