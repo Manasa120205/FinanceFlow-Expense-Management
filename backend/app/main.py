@@ -50,6 +50,7 @@ app = FastAPI(
 # Strictly allow production PennyFlow domains, preview deployments, localhost, and local network IPs
 allowed_origins = [
     "https://pennyflow-in.vercel.app",
+    "https://penny-flow-in.vercel.app",
     "http://localhost:5173",
     "http://127.0.0.1:5173",
     "http://localhost:3000",
@@ -64,7 +65,7 @@ if isinstance(settings.CORS_ORIGINS, list):
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,
-    allow_origin_regex=r"^(https://pennyflow[a-zA-Z0-9\-_]*\.vercel\.app|https://.*\.loca\.lt|http://(192\.168|10|172\.(1[6-9]|2[0-9]|3[0-1]))\.\d+\.\d+(:\d+)?)$",
+    allow_origin_regex=r"^(https://penny-?flow[a-zA-Z0-9\-_]*\.vercel\.app|https://.*\.loca\.lt|http://(192\.168|10|172\.(1[6-9]|2[0-9]|3[0-1]))\.\d+\.\d+(:\d+)?)$",
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
     allow_headers=["*"],
