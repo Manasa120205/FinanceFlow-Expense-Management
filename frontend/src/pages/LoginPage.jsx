@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Wallet, LogIn, AlertCircle, Sparkles } from 'lucide-react';
+import { Wallet, LogIn, AlertCircle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 export default function LoginPage() {
@@ -51,13 +51,6 @@ export default function LoginPage() {
     } finally {
       setIsSubmitting(false);
     }
-  };
-
-  const handleFillDemo = () => {
-    setEmail('demo.user@financeflow.app');
-    setPassword('DemoPass123!');
-    setFieldErrors({});
-    setServerError('');
   };
 
   return (
@@ -187,34 +180,6 @@ export default function LoginPage() {
               )}
             </button>
           </form>
-
-          {/* Quick Demo Helper */}
-          <div
-            style={{
-              marginTop: '1.5rem',
-              paddingTop: '1.25rem',
-              borderTop: '1px solid var(--border-light)',
-              textAlign: 'center',
-            }}
-          >
-            <button
-              type="button"
-              onClick={handleFillDemo}
-              style={{
-                background: 'none',
-                border: 'none',
-                color: 'var(--primary)',
-                fontSize: '0.825rem',
-                fontWeight: 600,
-                cursor: 'pointer',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.35rem',
-              }}
-            >
-              <Sparkles size={14} /> Quick-fill Sample Credentials
-            </button>
-          </div>
         </div>
 
         {/* Footer links */}
