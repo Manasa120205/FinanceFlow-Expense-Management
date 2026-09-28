@@ -25,8 +25,8 @@ export const getApiBaseURL = () => {
     }
 
     // Production cloud deployment (Vercel, custom domain):
-    // Use same-origin /api/v1 for 24/7 serverless cloud backend
-    return '/api/v1';
+    // Connect to active PennyFlow production API bridge
+    return 'https://pennyflow-api.loca.lt/api/v1';
   }
 
   return 'http://localhost:8000/api/v1';
@@ -70,19 +70,21 @@ apiClient.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config;
-    // Resilient fallback: If cloud /api/v1 is building or unreachable, retry via active bridge
+    // Resilient dual-bridge fallback: retry across available endpoints
     if (
       originalRequest &&
       !originalRequest._retry &&
       (error.code === 'ERR_NETWORK' ||
         error.code === 'ERR_HTML_RESPONSE' ||
         (error.response && [404, 405, 502, 503].includes(error.response.status))) &&
-      typeof window !== 'undefined' &&
-      window.location.hostname.includes('vercel.app') &&
-      (!originalRequest.baseURL || originalRequest.baseURL === '/api/v1')
+      typeof window !== 'undefined'
     ) {
       originalRequest._retry = true;
-      originalRequest.baseURL = 'https://pennyflow-api.loca.lt/api/v1';
+      const currentBase = originalRequest.baseURL || '';
+      const fallbackUrl = currentBase.includes('pennyflow-api')
+        ? 'https://financeflow-api.loca.lt/api/v1'
+        : 'https://pennyflow-api.loca.lt/api/v1';
+      originalRequest.baseURL = fallbackUrl;
       try {
         return await axios(originalRequest);
       } catch (fallbackError) {
