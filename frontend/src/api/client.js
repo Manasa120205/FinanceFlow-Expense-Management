@@ -25,8 +25,8 @@ export const getApiBaseURL = () => {
     }
 
     // Production cloud deployment (Vercel, custom domain):
-    // Connect to active PennyFlow production API bridge
-    return 'https://pennyflow-api.loca.lt/api/v1';
+    // Prioritize Render cloud backend with automated local bridge failover
+    return 'https://pennyflow-api.onrender.com/api/v1';
   }
 
   return 'http://localhost:8000/api/v1';
@@ -57,7 +57,7 @@ apiClient.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Response Interceptor: Global Error and Fallback Handling
+// Response Interceptor: Global Error and Failover Handling
 apiClient.interceptors.response.use(
   (response) => {
     // Check if a tunnel or proxy returned HTML unexpectedly
@@ -70,7 +70,7 @@ apiClient.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config;
-    // Resilient dual-bridge fallback: retry across available endpoints
+    // Resilient failover chain across Render cloud backend and active local tunnels
     if (
       originalRequest &&
       !originalRequest._retry &&
@@ -81,9 +81,12 @@ apiClient.interceptors.response.use(
     ) {
       originalRequest._retry = true;
       const currentBase = originalRequest.baseURL || '';
-      const fallbackUrl = currentBase.includes('pennyflow-api')
-        ? 'https://financeflow-api.loca.lt/api/v1'
-        : 'https://pennyflow-api.loca.lt/api/v1';
+      let fallbackUrl = 'https://pennyflow-api.loca.lt/api/v1';
+      if (currentBase.includes('pennyflow-api.loca.lt')) {
+        fallbackUrl = 'https://financeflow-api.loca.lt/api/v1';
+      } else if (currentBase.includes('pennyflow-api.onrender.com')) {
+        fallbackUrl = 'https://pennyflow-api.loca.lt/api/v1';
+      }
       originalRequest.baseURL = fallbackUrl;
       try {
         return await axios(originalRequest);
