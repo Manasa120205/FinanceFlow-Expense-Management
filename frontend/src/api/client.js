@@ -24,8 +24,9 @@ export const getApiBaseURL = () => {
       return `http://${hostname}:8000/api/v1`;
     }
 
-    // Production cloud deployment (Vercel, custom domain)
-    return 'https://pennyflow-api.onrender.com/api/v1';
+    // Production cloud deployment (Vercel, custom domain):
+    // Uses same-origin reverse proxy to eliminate CORS, preflight latency, and ISP DNS blocks
+    return '/api/v1';
   }
 
   return 'http://localhost:8000/api/v1';
