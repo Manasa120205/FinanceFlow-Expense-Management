@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
+import apiClient from './api/client';
 import ProtectedRoute from './components/common/ProtectedRoute';
 import Layout from './components/layout/Layout';
 
@@ -16,6 +17,11 @@ import ProfilePage from './pages/ProfilePage';
 import NotFoundPage from './pages/NotFoundPage';
 
 export default function App() {
+  useEffect(() => {
+    // Non-blocking cloud backend warm-up ping
+    apiClient.get('/health').catch(() => {});
+  }, []);
+
   return (
     <AuthProvider>
       <Routes>

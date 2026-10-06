@@ -39,7 +39,7 @@ const apiClient = axios.create({
     'bypass-tunnel-reminder': 'true',
     'Bypass-Tunnel-Reminder': 'true',
   },
-  timeout: 15000,
+  timeout: 60000,
 });
 
 // Request Interceptor: Attach JWT Bearer Token and Localtunnel bypass headers
