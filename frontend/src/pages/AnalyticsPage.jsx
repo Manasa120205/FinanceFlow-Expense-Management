@@ -85,7 +85,7 @@ export default function AnalyticsPage() {
         <div className="page-title-group">
           <h1>Financial Analytics</h1>
           <p className="page-subtitle">
-            Comprehensive charts and visual intelligence powered by your real transaction data.
+            Comprehensive financial charts and cash flow trends based on your real transaction data.
           </p>
         </div>
 
@@ -131,7 +131,7 @@ export default function AnalyticsPage() {
       </div>
 
       {loading ? (
-        <LoadingSpinner fullPage text="Synthesizing financial analytics and charts..." />
+        <LoadingSpinner fullPage text="Loading financial analytics..." />
       ) : error ? (
         <div className="card" style={{ textAlign: 'center', padding: '3rem' }}>
           <p className="text-danger" style={{ marginBottom: '1rem' }}>

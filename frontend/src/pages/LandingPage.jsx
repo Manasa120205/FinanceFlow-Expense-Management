@@ -8,7 +8,6 @@ import {
   ArrowRight,
   CheckCircle2,
   Lock,
-  Zap,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
@@ -69,7 +68,7 @@ export default function LandingPage() {
             marginBottom: '1.5rem',
           }}
         >
-          <Zap size={15} /> Built for Precision Personal Financial Management
+          <Wallet size={15} /> Personal Finance & Expense Management
         </div>
 
         <h1
@@ -95,9 +94,9 @@ export default function LandingPage() {
             margin: '0 auto 2rem',
           }}
         >
-          Seamlessly record income and expenses, set proactive monthly budgets,
-          and gain actionable visual insights into your personal wealth. Built with
-          enterprise-grade security and zero data leakage.
+          Seamlessly record income and expenses, set monthly budgets,
+          and gain clear visibility into your personal finances. Built with
+          reliable security and complete data privacy.
         </p>
 
         <div className="landing-hero-actions">
@@ -182,7 +181,7 @@ export default function LandingPage() {
             </h3>
             <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', lineHeight: 1.5 }}>
               View monthly cash flow trends, category breakdowns, and budget vs actual reports.
-              All data is strictly isolated with cryptographically secured JWT authentication.
+              All data is strictly private and isolated to your account.
             </p>
           </div>
         </div>
@@ -199,9 +198,9 @@ export default function LandingPage() {
           fontSize: '0.875rem',
         }}
       >
-        <p>© {new Date().getFullYear()} PennyFlow Platform. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} PennyFlow. All rights reserved.</p>
         <p style={{ marginTop: '0.35rem', fontSize: '0.75rem', color: 'var(--text-subtle)' }}>
-          Secure • Production-Ready • PostgreSQL Relational Architecture
+          Secure and Private Personal Finance Management
         </p>
       </footer>
     </div>

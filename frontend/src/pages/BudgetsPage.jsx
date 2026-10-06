@@ -236,7 +236,7 @@ export default function BudgetsPage() {
 
       {/* Budgets Grid */}
       {loading ? (
-        <LoadingSpinner text="Calculating categorical budgets and expenditures..." />
+        <LoadingSpinner text="Loading budgets..." />
       ) : error ? (
         <div className="card" style={{ textAlign: 'center', padding: '2rem' }}>
           <p className="text-danger" style={{ marginBottom: '1rem' }}>
