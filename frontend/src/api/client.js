@@ -1,6 +1,6 @@
 /**
  * Axios API HTTP Client Configuration and Interceptors.
- * Automatically resolves backend endpoint across localhost, local WiFi/LAN, and cloud tunnels.
+ * Automatically resolves production Render backend with resilient auto-retry on cold-starts.
  */
 import axios from 'axios';
 
@@ -24,8 +24,7 @@ export const getApiBaseURL = () => {
       return `http://${hostname}:8000/api/v1`;
     }
 
-    // Production cloud deployment (Vercel, custom domain):
-    // Prioritize Render cloud backend with automated local bridge failover
+    // Production cloud deployment (Vercel, custom domain)
     return 'https://pennyflow-api.onrender.com/api/v1';
   }
 
@@ -36,33 +35,28 @@ const apiClient = axios.create({
   baseURL: getApiBaseURL(),
   headers: {
     'Content-Type': 'application/json',
-    'bypass-tunnel-reminder': 'true',
-    'Bypass-Tunnel-Reminder': 'true',
   },
-  timeout: 60000,
+  timeout: 90000, // 90 seconds to allow smooth cold-start transitions
 });
 
-// Request Interceptor: Attach JWT Bearer Token and Localtunnel bypass headers
+// Request Interceptor: Attach JWT Bearer Token
 apiClient.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('pennyflow_token') || localStorage.getItem('financeflow_token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-    // Ensure Localtunnel doesn't intercept with a friendly reminder page
-    config.headers['bypass-tunnel-reminder'] = 'true';
-    config.headers['Bypass-Tunnel-Reminder'] = 'true';
     return config;
   },
   (error) => Promise.reject(error)
 );
 
-// Response Interceptor: Global Error and Failover Handling
+// Response Interceptor: Automatic Retry for Render Cold Starts & Global Error Handling
 apiClient.interceptors.response.use(
   (response) => {
-    // Check if a tunnel or proxy returned HTML unexpectedly
+    // Check if proxy returned HTML error page unexpectedly
     if (typeof response.data === 'string' && response.data.includes('<!DOCTYPE html>')) {
-      const error = new Error('Received HTML instead of JSON from API endpoint.');
+      const error = new Error('Received unexpected HTML response instead of JSON.');
       error.code = 'ERR_HTML_RESPONSE';
       return Promise.reject(error);
     }
@@ -70,28 +64,21 @@ apiClient.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config;
-    // Resilient failover chain across Render cloud backend and active local tunnels
-    if (
-      originalRequest &&
-      !originalRequest._retry &&
-      (error.code === 'ERR_NETWORK' ||
-        error.code === 'ERR_HTML_RESPONSE' ||
-        (error.response && [404, 405, 502, 503].includes(error.response.status))) &&
-      typeof window !== 'undefined'
-    ) {
-      originalRequest._retry = true;
-      const currentBase = originalRequest.baseURL || '';
-      let fallbackUrl = 'https://pennyflow-api.loca.lt/api/v1';
-      if (currentBase.includes('pennyflow-api.loca.lt')) {
-        fallbackUrl = 'https://financeflow-api.loca.lt/api/v1';
-      } else if (currentBase.includes('pennyflow-api.onrender.com')) {
-        fallbackUrl = 'https://pennyflow-api.loca.lt/api/v1';
-      }
-      originalRequest.baseURL = fallbackUrl;
-      try {
-        return await axios(originalRequest);
-      } catch (fallbackError) {
-        return Promise.reject(fallbackError);
+
+    // Automatic retry for Render cold starts or brief network blips (502, 503, 504, ERR_NETWORK, timeout)
+    const isRetryable =
+      error.code === 'ERR_NETWORK' ||
+      error.code === 'ECONNABORTED' ||
+      error.code === 'ERR_HTML_RESPONSE' ||
+      (error.response && [502, 503, 504].includes(error.response.status));
+
+    if (originalRequest && isRetryable) {
+      originalRequest._retryCount = (originalRequest._retryCount || 0) + 1;
+      if (originalRequest._retryCount <= 3) {
+        // Exponential backoff: 1.5s, 3s, 4.5s
+        const delay = originalRequest._retryCount * 1500;
+        await new Promise((resolve) => setTimeout(resolve, delay));
+        return apiClient(originalRequest);
       }
     }
 
@@ -112,4 +99,3 @@ apiClient.interceptors.response.use(
 );
 
 export default apiClient;
-

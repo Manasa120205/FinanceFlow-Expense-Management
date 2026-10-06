@@ -17,7 +17,7 @@ export const parseApiError = (err, defaultMessage = 'An unexpected error occurre
 
   // 2. Network offline or server unreachable
   if (err.code === 'ERR_NETWORK' || !err.response) {
-    return 'Could not connect to the PennyFlow server. The server is currently unreachable. Please verify your connection or try again in a moment.';
+    return 'The server was starting up. Please click Sign In again.';
   }
 
   const status = err.response?.status;
@@ -44,7 +44,7 @@ export const parseApiError = (err, defaultMessage = 'An unexpected error occurre
     return 'Something went wrong on our server. Please try again later.';
   }
   if (status === 502 || status === 503 || status === 504) {
-    return 'The PennyFlow server is temporarily unavailable. Please try again in a few moments.';
+    return 'The server is warming up. Please click Sign In again in a few moments.';
   }
 
   return detail || defaultMessage;

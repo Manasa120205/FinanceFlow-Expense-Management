@@ -1,0 +1,16 @@
+name: 24/7 Cloud Backend Keep-Alive
+
+on:
+  schedule:
+    # Run every 10 minutes to prevent Render free tier idle spin-down
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+
+jobs:
+  keep-alive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping PennyFlow Production API Healthcheck
+        run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" --max-time 45 https://pennyflow-api.onrender.com/api/v1/health)
+          echo "Healthcheck HTTP Status: $response"
