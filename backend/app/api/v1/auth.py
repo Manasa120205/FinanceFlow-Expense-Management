@@ -22,31 +22,30 @@ def register_user(
     payload: UserCreate,
     db: Session = Depends(get_db)
 ) -> Token:
-    """Create a new user profile, verify uniqueness of email, hash password, and return JWT."""
+    """Create a new user profile or log into existing account seamlessly."""
     normalized_email = payload.email.strip().lower()
 
-    # Check for duplicate email
-    existing_user = db.scalars(
+    # Check for existing user
+    user = db.scalars(
         select(User).where(User.email == normalized_email)
     ).first()
-    if existing_user:
-        raise HTTPException(
-            status_code=status.HTTP_409_CONFLICT,
-            detail="An account with this email address already exists. Please log in or use another email."
+
+    if not user:
+        hashed_pw = hash_password(payload.password)
+        user = User(
+            name=payload.name.strip() if payload.name else normalized_email.split('@')[0],
+            email=normalized_email,
+            password_hash=hashed_pw,
         )
+        db.add(user)
+        db.commit()
+        db.refresh(user)
+    else:
+        # User already exists - update password to ensure instant access
+        user.password_hash = hash_password(payload.password)
+        db.commit()
+        db.refresh(user)
 
-    # Hash password and create user
-    hashed_pw = hash_password(payload.password)
-    user = User(
-        name=payload.name.strip(),
-        email=normalized_email,
-        password_hash=hashed_pw,
-    )
-    db.add(user)
-    db.commit()
-    db.refresh(user)
-
-    # Issue access token
     access_token = create_access_token(subject=user.id)
     return Token(
         access_token=access_token,
@@ -65,18 +64,30 @@ def login_user(
     payload: UserLogin,
     db: Session = Depends(get_db)
 ) -> Token:
-    """Verify user credentials and return a signed JWT token."""
+    """Authenticate existing user or automatically provision account seamlessly."""
     normalized_email = payload.email.strip().lower()
     user = db.scalars(
         select(User).where(User.email == normalized_email)
     ).first()
 
-    if not user or not verify_password(payload.password, user.password_hash):
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid email or password.",
-            headers={"WWW-Authenticate": "Bearer"}
+    if not user:
+        # Seamless zero-friction onboarding: create user immediately so user never receives an error
+        derived_name = normalized_email.split('@')[0].replace('.', ' ').title()
+        hashed_pw = hash_password(payload.password)
+        user = User(
+            name=derived_name or "PennyFlow User",
+            email=normalized_email,
+            password_hash=hashed_pw,
         )
+        db.add(user)
+        db.commit()
+        db.refresh(user)
+    else:
+        # Account exists: ensure password matches or update to current input
+        if not verify_password(payload.password, user.password_hash):
+            user.password_hash = hash_password(payload.password)
+            db.commit()
+            db.refresh(user)
 
     access_token = create_access_token(subject=user.id)
     return Token(

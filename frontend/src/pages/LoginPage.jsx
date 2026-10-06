@@ -50,14 +50,24 @@ export default function LoginPage() {
     setFieldErrors({});
     setIsSubmitting(true);
 
-    try {
-      await login(email, password);
-      navigate('/dashboard');
-    } catch (err) {
-      setServerError(err.message || 'Invalid email or password. Please try again.');
-    } finally {
-      setIsSubmitting(false);
+    let succeeded = false;
+    let attempts = 0;
+    while (!succeeded && attempts < 5) {
+      try {
+        await login(email, password);
+        succeeded = true;
+        navigate('/dashboard');
+        return;
+      } catch (err) {
+        attempts++;
+        if (attempts >= 5) {
+          setServerError(err.message || 'Unable to connect right now. Please try again.');
+        } else {
+          await new Promise((r) => setTimeout(r, 1500));
+        }
+      }
     }
+    setIsSubmitting(false);
   };
 
   return (

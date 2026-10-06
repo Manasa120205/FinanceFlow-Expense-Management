@@ -74,9 +74,8 @@ apiClient.interceptors.response.use(
 
     if (originalRequest && isRetryable) {
       originalRequest._retryCount = (originalRequest._retryCount || 0) + 1;
-      if (originalRequest._retryCount <= 3) {
-        // Exponential backoff: 1.5s, 3s, 4.5s
-        const delay = originalRequest._retryCount * 1500;
+      if (originalRequest._retryCount <= 10) {
+        const delay = Math.min(originalRequest._retryCount * 1200, 3500);
         await new Promise((resolve) => setTimeout(resolve, delay));
         return apiClient(originalRequest);
       }

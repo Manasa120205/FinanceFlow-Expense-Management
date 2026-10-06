@@ -66,14 +66,24 @@ export default function RegisterPage() {
     setFieldErrors({});
     setIsSubmitting(true);
 
-    try {
-      await register(name, email, password, confirmPassword);
-      navigate('/dashboard');
-    } catch (err) {
-      setServerError(err.message || 'Registration failed. Please try again.');
-    } finally {
-      setIsSubmitting(false);
+    let succeeded = false;
+    let attempts = 0;
+    while (!succeeded && attempts < 5) {
+      try {
+        await register(name, email, password, confirmPassword);
+        succeeded = true;
+        navigate('/dashboard');
+        return;
+      } catch (err) {
+        attempts++;
+        if (attempts >= 5) {
+          setServerError(err.message || 'Unable to connect right now. Please try again.');
+        } else {
+          await new Promise((r) => setTimeout(r, 1500));
+        }
+      }
     }
+    setIsSubmitting(false);
   };
 
   return (
