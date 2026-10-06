@@ -5,12 +5,6 @@
 import axios from 'axios';
 
 export const getApiBaseURL = () => {
-  // 1. Explicit Vite environment variable
-  if (import.meta.env.VITE_API_URL) {
-    return import.meta.env.VITE_API_URL;
-  }
-
-  // 2. Runtime browser detection
   if (typeof window !== 'undefined') {
     const { hostname } = window.location;
 
@@ -24,12 +18,18 @@ export const getApiBaseURL = () => {
       return `http://${hostname}:8000/api/v1`;
     }
 
+    // Explicit valid production URL from Vite env (rejecting any dead loca.lt/localhost values)
+    const envUrl = import.meta.env.VITE_API_URL;
+    if (envUrl && !envUrl.includes('loca.lt') && !envUrl.includes('localhost')) {
+      return envUrl;
+    }
+
     // Production cloud deployment (Vercel, custom domain):
-    // Uses same-origin reverse proxy to eliminate CORS, preflight latency, and ISP DNS blocks
+    // ALWAYS use same-origin reverse proxy /api/v1
     return '/api/v1';
   }
 
-  return 'http://localhost:8000/api/v1';
+  return '/api/v1';
 };
 
 const apiClient = axios.create({
