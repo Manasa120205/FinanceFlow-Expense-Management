@@ -16,10 +16,11 @@ export default function LoginPage() {
 
   // If already authenticated, redirect to dashboard
   useEffect(() => {
-    if (!loading && isAuthenticated) {
-      navigate('/dashboard', { replace: true });
+    const hasToken = localStorage.getItem('pennyflow_token') || localStorage.getItem('financeflow_token');
+    if (hasToken) {
+      window.location.replace('/dashboard');
     }
-  }, [isAuthenticated, loading, navigate]);
+  }, []);
 
   // Check if session expired banner should show
   const params = new URLSearchParams(location.search);
@@ -50,24 +51,13 @@ export default function LoginPage() {
     setFieldErrors({});
     setIsSubmitting(true);
 
-    let succeeded = false;
-    let attempts = 0;
-    while (!succeeded && attempts < 5) {
-      try {
-        await login(email, password);
-        succeeded = true;
-        navigate('/dashboard');
-        return;
-      } catch (err) {
-        attempts++;
-        if (attempts >= 5) {
-          setServerError(err.message || 'Unable to connect right now. Please try again.');
-        } else {
-          await new Promise((r) => setTimeout(r, 1500));
-        }
-      }
+    try {
+      await login(email, password);
+      window.location.replace('/dashboard');
+    } catch (err) {
+      setServerError(err.message || 'Unable to sign in. Please try again.');
+      setIsSubmitting(false);
     }
-    setIsSubmitting(false);
   };
 
   return (

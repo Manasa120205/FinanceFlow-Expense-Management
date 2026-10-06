@@ -17,10 +17,11 @@ export default function RegisterPage() {
 
   // If already authenticated, redirect to dashboard
   useEffect(() => {
-    if (!loading && isAuthenticated) {
-      navigate('/dashboard', { replace: true });
+    const hasToken = localStorage.getItem('pennyflow_token') || localStorage.getItem('financeflow_token');
+    if (hasToken) {
+      window.location.replace('/dashboard');
     }
-  }, [isAuthenticated, loading, navigate]);
+  }, []);
 
   // Password strength checks
   const hasMinLength = password.length >= 8;
@@ -66,24 +67,13 @@ export default function RegisterPage() {
     setFieldErrors({});
     setIsSubmitting(true);
 
-    let succeeded = false;
-    let attempts = 0;
-    while (!succeeded && attempts < 5) {
-      try {
-        await register(name, email, password, confirmPassword);
-        succeeded = true;
-        navigate('/dashboard');
-        return;
-      } catch (err) {
-        attempts++;
-        if (attempts >= 5) {
-          setServerError(err.message || 'Unable to connect right now. Please try again.');
-        } else {
-          await new Promise((r) => setTimeout(r, 1500));
-        }
-      }
+    try {
+      await register(name, email, password, confirmPassword);
+      window.location.replace('/dashboard');
+    } catch (err) {
+      setServerError(err.message || 'Registration failed. Please try again.');
+      setIsSubmitting(false);
     }
-    setIsSubmitting(false);
   };
 
   return (

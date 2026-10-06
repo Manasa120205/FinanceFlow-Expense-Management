@@ -60,7 +60,7 @@ export function AuthProvider({ children }) {
     }
   });
   const [token, setToken] = useState(() => localStorage.getItem('pennyflow_token') || localStorage.getItem('financeflow_token') || null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(() => !(localStorage.getItem('pennyflow_token') || localStorage.getItem('financeflow_token')));
   const [error, setError] = useState(null);
 
   // Validate existing token with /auth/me on mount
@@ -140,6 +140,7 @@ export function AuthProvider({ children }) {
     localStorage.removeItem('pennyflow_user');
     localStorage.removeItem('financeflow_token');
     localStorage.removeItem('financeflow_user');
+    window.location.replace('/login');
   };
 
   const updateProfile = async (newName) => {

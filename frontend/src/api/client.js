@@ -36,7 +36,7 @@ const apiClient = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 90000, // 90 seconds to allow smooth cold-start transitions
+  timeout: 30000, // 30 seconds max per request
 });
 
 // Request Interceptor: Attach JWT Bearer Token
@@ -74,8 +74,8 @@ apiClient.interceptors.response.use(
 
     if (originalRequest && isRetryable) {
       originalRequest._retryCount = (originalRequest._retryCount || 0) + 1;
-      if (originalRequest._retryCount <= 10) {
-        const delay = Math.min(originalRequest._retryCount * 1200, 3500);
+      if (originalRequest._retryCount <= 3) {
+        const delay = originalRequest._retryCount * 1200;
         await new Promise((resolve) => setTimeout(resolve, delay));
         return apiClient(originalRequest);
       }
